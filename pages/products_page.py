@@ -1,15 +1,7 @@
-from conftest import handle_consent
+from pages.base_page import BasePage
 
-class ProductsPage:
+class ProductsPage(BasePage):
     URL = "https://automationexercise.com/products"
-
-    def __init__(self, page):
-        self.page = page
-
-    def navigate(self):
-        self.page.goto(self.URL)
-        handle_consent(self.page)
-        self.page.wait_for_timeout(1000)
 
     def search_product(self, product_name):
         self.page.fill("input#search_product", product_name)

@@ -1,15 +1,8 @@
-from conftest import handle_consent
+import os
+from pages.base_page import BasePage
 
-class RegisterPage:
+class RegisterPage(BasePage):
     URL = "https://automationexercise.com/login"
-
-    def __init__(self, page):
-        self.page = page
-
-    def navigate(self):
-        self.page.goto(self.URL)
-        handle_consent(self.page)
-        self.page.wait_for_timeout(1000)
 
     def enter_name(self, name):
         self.page.fill("input[data-qa='signup-name']", name)
@@ -21,4 +14,4 @@ class RegisterPage:
         self.page.click("button[data-qa='signup-button']")
 
     def get_error_message(self):
-        return self.page.inner_text("p[style='color: red;']")
+        return self.page.locator("form[action='/signup'] p").inner_text()
