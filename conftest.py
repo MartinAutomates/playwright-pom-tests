@@ -10,7 +10,10 @@ def page(request):
     with sync_playwright() as p:
         is_ci = os.getenv("CI") == "true"
         browser = p.chromium.launch(headless=is_ci)
-        page = browser.new_page()
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+        page = context.new_page()
         yield page
 
         if request.node.rep_call.failed:
