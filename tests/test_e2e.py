@@ -41,3 +41,30 @@ def test_complete_purchase_flow(page):
 
     # Step 9 - Verify order placed
     expect(page).to_have_url(re.compile("payment_done"))
+
+
+def test_checkout_with_invalid_card(page):
+    login = LoginPage(page)
+    login.navigate(login.URL)
+    login.enter_email()
+    login.enter_password()
+    login.click_login_button()
+
+    page.goto("https://automationexercise.com/products")
+    page.hover(".productinfo:first-child")
+    page.click(".productinfo:first-child .btn")
+    page.click("button:has-text('Continue Shopping')")
+
+    page.goto("https://automationexercise.com/view_cart")
+    page.click("a:has-text('Proceed To Checkout')")
+    page.click("a:has-text('Place Order')")
+
+    page.fill("input[data-qa='name-on-card']", "Martin Stoyanov")
+    page.fill("input[data-qa='card-number']", "123")
+    page.fill("input[data-qa='cvc']", "1")
+    page.fill("input[data-qa='expiry-month']", "13")
+    page.fill("input[data-qa='expiry-year']", "2020")
+
+    page.click("button[data-qa='pay-button']")
+
+    expect(page.locator("body")).not_to_contain_text("ORDER PLACED!")

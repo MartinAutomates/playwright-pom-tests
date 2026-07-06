@@ -25,3 +25,19 @@ def test_search_specific_product(page):
     products.search_product("top")
     count = products.get_search_results()
     assert count > 0
+
+
+def test_search_with_empty_query(page):
+    products = ProductsPage(page)
+    products.navigate(products.URL)
+    products.search_product("")
+    count = products.get_search_results()
+    assert count > 0  # Empty search returns all products, not an error
+
+
+def test_search_nonexistent_product(page):
+    products = ProductsPage(page)
+    products.navigate(products.URL)
+    products.search_product("xyzxyzxyz123nonexistent")
+    count = products.get_search_results()
+    assert count == 0
