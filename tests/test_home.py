@@ -1,12 +1,15 @@
+import pytest
 from pages.home_page import HomePage
 from playwright.sync_api import expect
 
+@pytest.mark.smoke
 def test_homepage_loads(page):
     home = HomePage(page)
     home.navigate(home.URL)
     title = home.get_title()
     assert "Automation Exercise" in title
 
+@pytest.mark.smoke
 def test_login_link_works(page):
     home = HomePage(page)
     home.navigate(home.URL)

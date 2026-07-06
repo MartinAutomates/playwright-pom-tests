@@ -1,8 +1,10 @@
 import os
 import re
+import pytest
 from pages.login_page import LoginPage
 from playwright.sync_api import expect
 
+@pytest.mark.e2e
 def test_complete_purchase_flow(page):
     # Step 1 - Login
     login = LoginPage(page)
@@ -43,6 +45,7 @@ def test_complete_purchase_flow(page):
     expect(page).to_have_url(re.compile("payment_done"))
 
 
+@pytest.mark.e2e
 def test_checkout_with_invalid_card(page):
     login = LoginPage(page)
     login.navigate(login.URL)
