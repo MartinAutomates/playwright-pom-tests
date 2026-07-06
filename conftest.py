@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -7,7 +8,8 @@ from playwright.sync_api import sync_playwright
 @pytest.fixture()
 def page(request):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        is_ci = os.getenv("CI") == "true"
+        browser = p.chromium.launch(headless=is_ci)
         page = browser.new_page()
         yield page
 
